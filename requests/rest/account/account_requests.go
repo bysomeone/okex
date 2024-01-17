@@ -16,9 +16,9 @@ type (
 	}
 	GetBills struct {
 		Ccy      string              `json:"ccy,omitempty"`
-		After    int64               `json:"after,omitempty,string"`
-		Before   int64               `json:"before,omitempty,string"`
-		Limit    int64               `json:"limit,omitempty,string"`
+		After    string               `json:"after,omitempty"`
+		Before   string               `json:"before,omitempty"`
+		Limit    int64               `json:"limit,omitempty"`
 		InstType okex.InstrumentType `json:"instType,omitempty"`
 		MgnMode  okex.MarginMode     `json:"mgnMode,omitempty"`
 		CtType   okex.ContractType   `json:"ctType,omitempty"`

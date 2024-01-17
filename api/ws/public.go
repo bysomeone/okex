@@ -448,7 +448,7 @@ func (c *Public) Process(data []byte, e *events.Basic) bool {
 				if c.mpCh != nil {
 					c.mpCh <- &e
 				}
-				c.StructuredEventChan <- e
+				//c.StructuredEventChan <- e
 			}()
 			return true
 		case "price-limit":
