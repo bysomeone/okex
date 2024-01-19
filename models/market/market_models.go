@@ -192,14 +192,15 @@ func (c *IndexCandle) UnmarshalJSON(buf []byte) error {
 		err             error
 	)
 	tmp := []interface{}{&ts, &o, &h, &l, &cl}
-	wantLen := len(tmp)
+	//wantLen := len(tmp)
 	if err := json.Unmarshal(buf, &tmp); err != nil {
 		return err
 	}
 
-	if g, e := len(tmp), wantLen; g != e {
-		return fmt.Errorf("wrong number of fields in Candle: %d != %d", g, e)
-	}
+	//if g, e := len(tmp), wantLen; g != e {
+	//
+	//	return fmt.Errorf("wrong number of fields in Candle: %d != %d", g, e)
+	//}
 
 	timestamp, err := strconv.ParseInt(ts, 10, 64)
 	if err != nil {
