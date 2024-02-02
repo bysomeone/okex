@@ -2,6 +2,7 @@ package account
 
 import (
 	"github.com/amir-the-h/okex"
+	"github.com/amir-the-h/okex/models/trade"
 )
 
 type (
@@ -79,6 +80,8 @@ type (
 		InstType    okex.InstrumentType `json:"instType"`
 		CTime       okex.JSONTime       `json:"cTime"`
 		UTime       okex.JSONTime       `json:"uTime"`
+
+		CloseOrderAlgo []trade.AlgoOrder `json:"closeOrderAlgo"`
 	}
 	BalanceAndPosition struct {
 		EventType okex.EventType    `json:"eventType"`

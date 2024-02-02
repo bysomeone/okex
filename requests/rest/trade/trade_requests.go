@@ -66,30 +66,41 @@ type (
 		Limit    float64             `json:"limit,omitempty,string"`
 		InstType okex.InstrumentType `json:"instType,omitempty"`
 	}
+
+	AmendAlgoOrder struct {
+		InstID         string  `json:"instId"`
+		AlgoClOrdId    string  `json:"algoClOrdId"`
+		AlgoId         string  `json:"algoId"`
+		NewSlTriggerPx float64 `json:"newSlTriggerPx,string"`
+	}
 	PlaceAlgoOrder struct {
-		InstID     string             `json:"instId"`
-		TdMode     okex.TradeMode     `json:"tdMode"`
-		Ccy        string             `json:"ccy,omitempty"`
-		Side       okex.OrderSide     `json:"side"`
-		PosSide    okex.PositionSide  `json:"posSide,omitempty"`
-		OrdType    okex.AlgoOrderType `json:"ordType"`
-		Sz         int64              `json:"sz,string"`
-		ReduceOnly bool               `json:"reduceOnly,omitempty"`
-		TgtCcy     okex.QuantityType  `json:"tgtCcy,omitempty"`
+		InstID        string             `json:"instId"`
+		TdMode        okex.TradeMode     `json:"tdMode"`
+		Ccy           string             `json:"ccy,omitempty"`
+		Side          okex.OrderSide     `json:"side"`
+		PosSide       okex.PositionSide  `json:"posSide,omitempty"`
+		OrdType       okex.AlgoOrderType `json:"ordType"`
+		Sz            float64            `json:"sz,string,omitempty"`
+		ReduceOnly    bool               `json:"reduceOnly,string,omitempty"`
+		TgtCcy        okex.QuantityType  `json:"tgtCcy,omitempty"`
+		CloseFraction float64            `json:"closeFraction,string,omitempty"`
+		AlgoClOrdId   string             `json:"algoClOrdId"`
 		StopOrder
 		TriggerOrder
 		IcebergOrder
 		TWAPOrder
 	}
 	StopOrder struct {
-		TpTriggerPx float64 `json:"tpTriggerPx,string,omitempty"`
-		TpOrdPx     float64 `json:"tpOrdPx,string,omitempty"`
-		SlTriggerPx float64 `json:"slTriggerPx,string,omitempty"`
-		SlOrdPx     float64 `json:"slOrdPx,string,omitempty"`
+		TpTriggerPx     float64 `json:"tpTriggerPx,string,omitempty"`
+		TpOrdPx         float64 `json:"tpOrdPx,string,omitempty"`
+		SlTriggerPx     float64 `json:"slTriggerPx,string,omitempty"`
+		SlOrdPx         float64 `json:"slOrdPx,string,omitempty"`
+		CxlOnClosePos   bool    `json:"cxlOnClosePos,omitempty"`
+		SlTriggerPxType string  `json:"slTriggerPxType,omitempty"`
 	}
 	TriggerOrder struct {
 		TriggerPx float64 `json:"triggerPx,string,omitempty"`
-		OrdPx     float64 `json:"ordPx,string,omitempty"`
+		OrdPx     float64 `json:"orderPx,string,omitempty"`
 	}
 	IcebergOrder struct {
 		PxVar    float64 `json:"pxVar,string,omitempty"`
@@ -103,7 +114,7 @@ type (
 	}
 	CancelAlgoOrder struct {
 		InstID string `json:"instId"`
-		AlgoID string `json:"AlgoId"`
+		AlgoID string `json:"algoId"`
 	}
 	AlgoOrderList struct {
 		InstType okex.InstrumentType `json:"instType,omitempty"`

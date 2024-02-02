@@ -11,6 +11,7 @@ import (
 	requests "github.com/amir-the-h/okex/requests/rest/public"
 	responses "github.com/amir-the-h/okex/responses/public_data"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 )
@@ -40,8 +41,9 @@ func NewClient(apiKey, secretKey, passphrase string, baseURL okex.BaseURL, desti
 		passphrase:  passphrase,
 		baseURL:     baseURL,
 		destination: destination,
-		client:      http.DefaultClient,
+		client:      &http.Client{},
 	}
+	c.initHttpClient()
 	c.Account = NewAccount(c)
 	c.SubAccount = NewSubAccount(c)
 	c.Trade = NewTrade(c)
@@ -50,6 +52,75 @@ func NewClient(apiKey, secretKey, passphrase string, baseURL okex.BaseURL, desti
 	c.PublicData = NewPublicData(c)
 	c.TradeData = NewTradeData(c)
 	return c
+}
+
+func (c *ClientRest) SetTimeout(sec int64) {
+	timeout := time.Duration(sec) * time.Second
+	c.client.Timeout = timeout
+	trans := c.client.Transport.(*http.Transport)
+	trans.ResponseHeaderTimeout = timeout
+	trans.TLSHandshakeTimeout = timeout
+	trans.ExpectContinueTimeout = timeout
+}
+
+func (c *ClientRest) SetProxy(proxy string) error {
+
+	proxyUrl, err := url.Parse(proxy)
+	if err != nil {
+		return err
+	}
+	trans := c.client.Transport.(*http.Transport)
+	trans.Proxy = func(request *http.Request) (*url.URL, error) {
+		return proxyUrl, nil
+	}
+	return nil
+}
+
+func (c *ClientRest) initHttpClient() {
+	timeout := 5 * time.Second
+	c.client.Timeout = timeout
+	c.client.Transport = &http.Transport{
+		IdleConnTimeout:       time.Minute,
+		TLSHandshakeTimeout:   timeout,
+		ResponseHeaderTimeout: timeout,
+		MaxConnsPerHost:       4,
+		MaxIdleConnsPerHost:   4,
+		MaxIdleConns:          8,
+	}
+}
+
+// DoPost the http request to the server
+func (c *ClientRest) DoPost(method, path string, private bool, req []byte) (*http.Response, error) {
+	u := fmt.Sprintf("%s%s", c.baseURL, path)
+	var (
+		r    *http.Request
+		err  error
+		body string
+	)
+
+	body = string(req)
+	if body == "{}" {
+		body = ""
+	}
+	r, err = http.NewRequest(method, u, bytes.NewBuffer(req))
+	if err != nil {
+		return nil, err
+	}
+	r.Header.Add("Content-Type", "application/json")
+	if err != nil {
+		return nil, err
+	}
+	if private {
+		timestamp, sign := c.sign(method, path, body)
+		r.Header.Add("OK-ACCESS-KEY", c.apiKey)
+		r.Header.Add("OK-ACCESS-PASSPHRASE", c.passphrase)
+		r.Header.Add("OK-ACCESS-SIGN", sign)
+		r.Header.Add("OK-ACCESS-TIMESTAMP", timestamp)
+	}
+	if c.destination == okex.DemoServer {
+		r.Header.Add("x-simulated-trading", "1")
+	}
+	return c.client.Do(r)
 }
 
 // Do the http request to the server
