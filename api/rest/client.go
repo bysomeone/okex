@@ -2,14 +2,17 @@ package rest
 
 import (
 	"bytes"
+	"context"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/amir-the-h/okex"
 	requests "github.com/amir-the-h/okex/requests/rest/public"
 	responses "github.com/amir-the-h/okex/responses/public_data"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -87,6 +90,41 @@ func (c *ClientRest) initHttpClient() {
 		MaxIdleConnsPerHost:   4,
 		MaxIdleConns:          8,
 	}
+}
+
+func (c *ClientRest) DoRequest(method, rqUrl string, reqBody string, headers map[string]string) (data []byte, err error) {
+
+	reqTimeoutCtx, _ := context.WithTimeout(context.TODO(), c.client.Timeout)
+	req, _ := http.NewRequestWithContext(reqTimeoutCtx, method, rqUrl, strings.NewReader(reqBody))
+
+	if headers != nil {
+		for k, v := range headers {
+			req.Header.Add(k, v)
+		}
+	}
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
+
+	bodyData, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("read response body error: %w", err)
+	}
+
+	if resp.StatusCode != 200 {
+		return bodyData, errors.New(resp.Status)
+	}
+
+	return bodyData, nil
 }
 
 // DoPost the http request to the server
