@@ -99,8 +99,9 @@ type (
 		SlTriggerPxType string  `json:"slTriggerPxType,omitempty"`
 	}
 	TriggerOrder struct {
-		TriggerPx float64 `json:"triggerPx,string,omitempty"`
-		OrdPx     float64 `json:"orderPx,string,omitempty"`
+		TriggerPx     float64 `json:"triggerPx,string,omitempty"`
+		OrdPx         float64 `json:"orderPx,string,omitempty"`
+		TriggerPxType string  `json:"triggerPxType,omitempty"`
 	}
 	IcebergOrder struct {
 		PxVar    float64 `json:"pxVar,string,omitempty"`

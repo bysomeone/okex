@@ -112,28 +112,29 @@ type (
 		ActualSz     okex.JSONFloat64    `json:"actualSz"`
 		ActualPx     okex.JSONFloat64    `json:"actualPx"`
 		Pnl          okex.JSONFloat64    `json:"pnl"`
-		AccFillSz    okex.JSONFloat64    `json:"accFillSz"`
-		FillPx       okex.JSONFloat64    `json:"fillPx"`
-		FillSz       okex.JSONFloat64    `json:"fillSz"`
-		FillTime     okex.JSONFloat64    `json:"fillTime"`
-		AvgPx        okex.JSONFloat64    `json:"avgPx"`
-		Lever        okex.JSONFloat64    `json:"lever"`
-		TpTriggerPx  okex.JSONFloat64    `json:"tpTriggerPx"`
-		TpOrdPx      okex.JSONFloat64    `json:"tpOrdPx"`
-		SlTriggerPx  okex.JSONFloat64    `json:"slTriggerPx"`
-		SlOrdPx      okex.JSONFloat64    `json:"slOrdPx"`
-		OrdPx        okex.JSONFloat64    `json:"ordPx"`
-		Fee          okex.JSONFloat64    `json:"fee"`
-		Rebate       okex.JSONFloat64    `json:"rebate"`
-		State        okex.OrderState     `json:"state"`
-		TdMode       okex.TradeMode      `json:"tdMode"`
-		ActualSide   okex.PositionSide   `json:"actualSide"`
-		PosSide      okex.PositionSide   `json:"posSide"`
-		Side         okex.OrderSide      `json:"side"`
-		OrdType      okex.AlgoOrderType  `json:"ordType"`
-		InstType     okex.InstrumentType `json:"instType"`
-		TgtCcy       okex.QuantityType   `json:"tgtCcy"`
-		CTime        okex.JSONTime       `json:"cTime"`
+		AccFillSz   okex.JSONFloat64    `json:"accFillSz"`
+		FillPx      okex.JSONFloat64    `json:"fillPx"`
+		FillSz      okex.JSONFloat64    `json:"fillSz"`
+		FillTime    okex.JSONFloat64    `json:"fillTime"`
+		AvgPx       okex.JSONFloat64    `json:"avgPx"`
+		Lever       okex.JSONFloat64    `json:"lever"`
+		TpTriggerPx okex.JSONFloat64    `json:"tpTriggerPx"`
+		TpOrdPx     okex.JSONFloat64    `json:"tpOrdPx"`
+		SlTriggerPx okex.JSONFloat64    `json:"slTriggerPx"`
+		SlOrdPx     okex.JSONFloat64    `json:"slOrdPx"`
+		OrdPx       okex.JSONFloat64    `json:"ordPx"`
+		TriggerPx   okex.JSONFloat64    `json:"triggerPx"`
+		Fee         okex.JSONFloat64    `json:"fee"`
+		Rebate      okex.JSONFloat64    `json:"rebate"`
+		State       okex.OrderState     `json:"state"`
+		TdMode      okex.TradeMode      `json:"tdMode"`
+		ActualSide  okex.PositionSide   `json:"actualSide"`
+		PosSide     okex.PositionSide   `json:"posSide"`
+		Side        okex.OrderSide      `json:"side"`
+		OrdType     okex.AlgoOrderType  `json:"ordType"`
+		InstType    okex.InstrumentType `json:"instType"`
+		TgtCcy      okex.QuantityType   `json:"tgtCcy"`
+		CTime       okex.JSONTime       `json:"cTime"`
 		TriggerTime  okex.JSONTime       `json:"triggerTime"`
 	}
 )
